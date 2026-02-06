@@ -49,3 +49,26 @@ lightbox.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeLightbox();
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const ua = navigator.userAgent || "";
+  const isInApp = /Instagram|FBAN|FBAV/i.test(ua);
+
+  const mapFrame = document.getElementById("mapFrame");
+  const mapToolbar = document.getElementById("mapToolbar");
+
+  if (!mapToolbar) return;
+
+  if (isInApp) {
+    // Instagram/Facebook in-app: iframe hide, button show
+    if (mapFrame) mapFrame.style.display = "none";
+    mapToolbar.style.display = "block";
+  } else {
+    // Normal browsers: iframe load
+    if (mapFrame) {
+      const src = mapFrame.getAttribute("data-src");
+      if (src) mapFrame.setAttribute("src", src);
+      mapFrame.style.display = "block";
+    }
+    mapToolbar.style.display = "none";
+  }
+});
