@@ -563,5 +563,17 @@ h1{
   border-bottom: 1px solid #eee;
 }
 .btn-block{ width:100%; }
+/* In-app (Instagram/Facebook) me map ka blank box hatao */
+.map.is-inapp{
+  min-height: auto;
+}
+
+.map.is-inapp iframe{
+  display:none !important;
+}
+
+.map.is-inapp .map-toolbar{
+  border-bottom: 0;
+}
 
 
