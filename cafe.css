@@ -575,5 +575,23 @@ h1{
 .map.is-inapp .map-toolbar{
   border-bottom: 0;
 }
+/* ✅ In-app (Instagram/Facebook) me blank box completely remove */
+#mapWrap.is-inapp{
+  min-height: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+#mapWrap.is-inapp iframe{
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+}
+
+#mapWrap.is-inapp .map-toolbar{
+  display: block !important;
+  border-bottom: 0 !important;
+  padding: 12px !important;
+}
 
 
