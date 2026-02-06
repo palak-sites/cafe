@@ -53,42 +53,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const ua = navigator.userAgent || "";
 
   // ✅ Instagram + Facebook in-app + WebView catch
-  const isInApp =
-    /Instagram|FBAN|FBAV/i.test(ua) ||
-    (ua.includes("wv") && ua.includes("Version/4.0"));
-
+document.addEventListener("DOMContentLoaded", () => {
   const mapFrame = document.getElementById("mapFrame");
   const mapToolbar = document.getElementById("mapToolbar");
 
-  if (!mapFrame || !mapToolbar) return;
+  if (!mapToolbar) return;
 
-  const showButton = () => {
-    mapToolbar.style.display = "block";
-    mapFrame.style.display = "none";
-    mapFrame.removeAttribute("src"); // prevent blank iframe box
-  };
+  // ✅ Button ALWAYS visible by default (never blank)
+  mapToolbar.style.display = "block";
 
-  const showMap = () => {
+  if (!mapFrame) return;
+
+  // ✅ Try to load map only in normal browsers
+  const src = mapFrame.getAttribute("data-src");
+  if (src) mapFrame.setAttribute("src", src);
+
+  // ✅ If map loads successfully -> hide button
+  mapFrame.addEventListener("load", () => {
     mapToolbar.style.display = "none";
-    mapFrame.style.display = "block";
-    const src = mapFrame.getAttribute("data-src") || mapFrame.getAttribute("src");
-    if (src) mapFrame.setAttribute("src", src);
-  };
+  });
 
-  // ✅ If in-app => always button
-  if (isInApp) {
-    showButton();
-    return;
-  }
-
-  // ✅ Normal browser => map
-  let loaded = false;
-  mapFrame.addEventListener("load", () => (loaded = true));
-
-  showMap();
-
-  // ✅ fallback: if iframe didn't load (blocked) => show button
+  // ✅ If map doesn't load (Instagram blocks iframe) -> keep button visible
   setTimeout(() => {
-    if (!loaded) showButton();
+    // If iframe still has no content / blocked, button stays
+    // (no action needed because button already visible)
   }, 1500);
 });
+
