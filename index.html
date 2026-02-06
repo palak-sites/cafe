@@ -315,8 +315,7 @@
       </div>
 
      <div class="map">
-  <!-- Instagram/Facebook in-app fallback -->
-  <div class="map-toolbar" id="mapToolbar" style="display:none;">
+  <div class="map-toolbar" id="mapToolbar">
     <a class="btn btn-primary btn-block"
        href="https://www.google.com/maps/search/?api=1&query=YOUR%20CAFE%20ADDRESS%2C%20JAIPUR"
        target="_blank" rel="noopener">
@@ -324,15 +323,15 @@
     </a>
   </div>
 
-  <!-- IMPORTANT: src nahi hoga, only data-src -->
   <iframe
     id="mapFrame"
     title="Google Map"
-    data-src="https://www.google.com/maps?q=Jaipur%20Rajasthan&output=embed"
+    src="https://www.google.com/maps?q=Jaipur%20Rajasthan&output=embed"
     loading="lazy"
     referrerpolicy="no-referrer-when-downgrade">
   </iframe>
 </div>
+
 
     </div>
   </section>
