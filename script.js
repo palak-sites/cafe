@@ -60,18 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const mapFrame = document.getElementById("mapFrame");
   const mapToolbar = document.getElementById("mapToolbar");
+  const mapWrap = document.querySelector(".map"); // ✅ container
 
   if (!mapToolbar) return;
 
   if (isInApp) {
-    // In-app: iframe hide + stop loading, button show
+    if (mapWrap) mapWrap.classList.add("is-inapp"); // ✅ collapse height
     if (mapFrame) {
       mapFrame.style.display = "none";
       mapFrame.src = "about:blank";
     }
     mapToolbar.style.display = "block";
   } else {
-    // Normal browser: map show, button hide
+    if (mapWrap) mapWrap.classList.remove("is-inapp");
     if (mapFrame) mapFrame.style.display = "block";
     mapToolbar.style.display = "none";
   }
