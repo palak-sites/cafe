@@ -23,14 +23,15 @@ const lbImg = document.getElementById("lbImg");
 const lbClose = document.getElementById("lbClose");
 
 function closeLightbox() {
+  if (!lightbox) return;
   lightbox.classList.remove("is-open");
   lightbox.setAttribute("aria-hidden", "true");
-  lbImg.src = "";
+  if (lbImg) lbImg.src = "";
 }
 
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".g-item");
-  if (!btn) return;
+  if (!btn || !lightbox || !lbImg) return;
 
   const src = btn.getAttribute("data-src") || btn.querySelector("img")?.src;
   if (!src) return;
@@ -40,43 +41,38 @@ document.addEventListener("click", (e) => {
   lightbox.setAttribute("aria-hidden", "false");
 });
 
-lbClose.addEventListener("click", closeLightbox);
+if (lbClose) lbClose.addEventListener("click", closeLightbox);
 
-lightbox.addEventListener("click", (e) => {
-  if (e.target === lightbox) closeLightbox();
-});
+if (lightbox) {
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+}
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeLightbox();
 });
+
+// ===== Map: Instagram/Facebook in-app fix (never blank) =====
 document.addEventListener("DOMContentLoaded", () => {
   const ua = navigator.userAgent || "";
+  const isInApp = /Instagram|FBAN|FBAV/i.test(ua);
 
-  // ✅ Instagram + Facebook in-app + WebView catch
-document.addEventListener("DOMContentLoaded", () => {
   const mapFrame = document.getElementById("mapFrame");
   const mapToolbar = document.getElementById("mapToolbar");
 
   if (!mapToolbar) return;
 
-  // ✅ Button ALWAYS visible by default (never blank)
-  mapToolbar.style.display = "block";
-
-  if (!mapFrame) return;
-
-  // ✅ Try to load map only in normal browsers
-  const src = mapFrame.getAttribute("data-src");
-  if (src) mapFrame.setAttribute("src", src);
-
-  // ✅ If map loads successfully -> hide button
-  mapFrame.addEventListener("load", () => {
+  if (isInApp) {
+    // In-app: iframe hide + stop loading, button show
+    if (mapFrame) {
+      mapFrame.style.display = "none";
+      mapFrame.src = "about:blank";
+    }
+    mapToolbar.style.display = "block";
+  } else {
+    // Normal browser: map show, button hide
+    if (mapFrame) mapFrame.style.display = "block";
     mapToolbar.style.display = "none";
-  });
-
-  // ✅ If map doesn't load (Instagram blocks iframe) -> keep button visible
-  setTimeout(() => {
-    // If iframe still has no content / blocked, button stays
-    // (no action needed because button already visible)
-  }, 1500);
+  }
 });
-
