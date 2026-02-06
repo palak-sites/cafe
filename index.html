@@ -313,9 +313,8 @@
 
         <p class="small muted">Tip: Client ka address + timings yahan easy edit ho jata hai.</p>
       </div>
-
-     <div class="map">
-  <div class="map-toolbar" id="mapToolbar">
+<div class="map" id="mapWrap">
+  <div class="map-toolbar" id="mapToolbar" style="display:none;">
     <a class="btn btn-primary btn-block"
        href="https://www.google.com/maps/search/?api=1&query=YOUR%20CAFE%20ADDRESS%2C%20JAIPUR"
        target="_blank" rel="noopener">
@@ -326,11 +325,12 @@
   <iframe
     id="mapFrame"
     title="Google Map"
-    src="https://www.google.com/maps?q=Jaipur%20Rajasthan&output=embed"
+    data-src="https://www.google.com/maps?q=Jaipur%20Rajasthan&output=embed"
     loading="lazy"
     referrerpolicy="no-referrer-when-downgrade">
   </iframe>
 </div>
+
 
 
     </div>
