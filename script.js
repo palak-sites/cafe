@@ -58,22 +58,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const ua = navigator.userAgent || "";
   const isInApp = /Instagram|FBAN|FBAV/i.test(ua);
 
+  const mapWrap = document.getElementById("mapWrap");
   const mapFrame = document.getElementById("mapFrame");
   const mapToolbar = document.getElementById("mapToolbar");
-  const mapWrap = document.querySelector(".map"); // ✅ container
 
-  if (!mapToolbar) return;
+  if (!mapWrap || !mapToolbar) return;
 
   if (isInApp) {
-    if (mapWrap) mapWrap.classList.add("is-inapp"); // ✅ collapse height
+    mapWrap.classList.add("is-inapp");
+    mapToolbar.style.display = "block";
+
     if (mapFrame) {
       mapFrame.style.display = "none";
-      mapFrame.src = "about:blank";
+      mapFrame.removeAttribute("src"); // ✅ prevents loading in IG
     }
-    mapToolbar.style.display = "block";
   } else {
-    if (mapWrap) mapWrap.classList.remove("is-inapp");
-    if (mapFrame) mapFrame.style.display = "block";
+    mapWrap.classList.remove("is-inapp");
     mapToolbar.style.display = "none";
+
+    if (mapFrame) {
+      const src = mapFrame.getAttribute("data-src");
+      if (src) mapFrame.setAttribute("src", src);
+      mapFrame.style.display = "block";
+    }
   }
 });
