@@ -31,7 +31,7 @@ function closeLightbox() {
 
 document.addEventListener("click", (e) => {
   const btn = e.target.closest(".g-item");
-  if (!btn || !lightbox || !lbImg) return;
+  if (!btn || !lbImg || !lightbox) return;
 
   const src = btn.getAttribute("data-src") || btn.querySelector("img")?.src;
   if (!src) return;
@@ -53,26 +53,31 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeLightbox();
 });
 
-// ===== Map: Instagram/Facebook in-app fix (never blank) =====
+// ===== Year (optional) =====
+const yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+// ===== Map: Instagram/Facebook in-app fix + No blank waste =====
 document.addEventListener("DOMContentLoaded", () => {
   const ua = navigator.userAgent || "";
   const isInApp = /Instagram|FBAN|FBAV/i.test(ua);
 
-  const mapWrap = document.getElementById("mapWrap");
-  const mapFrame = document.getElementById("mapFrame");
+  const mapWrap = document.querySelector(".map");
   const mapToolbar = document.getElementById("mapToolbar");
+  const mapFrame = document.getElementById("mapFrame");
 
   if (!mapWrap || !mapToolbar) return;
 
   if (isInApp) {
+    // ✅ In-app: iframe hide + remove space
     mapWrap.classList.add("is-inapp");
     mapToolbar.style.display = "block";
-
     if (mapFrame) {
       mapFrame.style.display = "none";
-      mapFrame.removeAttribute("src"); // ✅ prevents loading in IG
+      mapFrame.removeAttribute("src");
     }
   } else {
+    // ✅ Normal browsers: load iframe
     mapWrap.classList.remove("is-inapp");
     mapToolbar.style.display = "none";
 
